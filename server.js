@@ -36,6 +36,6 @@ app.get('/api/:name', (req, res)  => {
 })
 
 
-app.listen(PORT, (req, res) => {
+app.listen(process.env.PORT || PORT, (req, res) => {
     console.log(`node is running on port ${PORT}`)
 })
