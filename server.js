@@ -5,38 +5,50 @@ const PORT = 8000
 
 app.use(cors())
 
-const rappers = {
-    '21 savage' : {
-        'age' : 29,
-        'birthname' : 'Shelyee Bin Abraham Joseph',
-        'birthlocation' : 'London, England'
+const houses = [
+    {
+    code: "ST",
+    name: "stark",
+    character: ["Eddard", "Catelyn", "Robb", "Sansa", "Arya", "Jon Snow"]
     },
-    'chance the rapper' : {
-        'age' : 29,
-        'birthname' : 'Chance Benette',
-        'birthlocation' : 'London, England'
+    {
+    code: "LA",
+    name: "lannister",
+    character: ["Tywin", "Cersei", "Jaime", "Tyrion"]
     },
-    'unknown' : {
-        'age' : 0,
-        'birthname' : 'unknown',
-        'birthlocation' : 'unknown'
+    {
+    code: "BA",
+    name: "baratheon",
+    character: ["Robert", "Stannis", "Renly"]
+    },
+    {
+    code: "TA",
+    name: "targaryen",
+    character: ["Aerys", "Daenerys", "Viserys"]
     }
-}
-app.get('/', (req, res)  => {
-    res.sendFile(__dirname + '/index.html')
-    console.log('Homepage is running')
-})
-
-app.get('/api/:name', (req, res)  => {
-    const rappersName = req.params.name.toLowerCase()
-    if(rappers[rappersName]) {
-        res.json(rappers[rappersName])
-    } else {
-        res.json(rappers['unknown'])
-    }
-    // res.json(rappers)
-    // console.log('api is running')
-})
+  ]
+  
+  
+  app.get('/', (req, res) => {
+      res.sendFile(__dirname + '/index.html')
+      console.log('Homepage is running')
+  })
+  
+  app.get('/api/houses/:name', (req, res) => {
+      const name = req.params.name.toLowerCase()
+      const house = houses.find(house => house.name === name)
+      res.json(house)
+      // console.log(house)
+      if (house) {
+          res.json(house)
+      } else {
+          res.status(404).json({
+              "code": "unknown",
+              "name": "unknown",
+              "character": "unknown"
+          })
+      }
+  })
 
 
 app.listen(process.env.PORT || PORT, (req, res) => {
